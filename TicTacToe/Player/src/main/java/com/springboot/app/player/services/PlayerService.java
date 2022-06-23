@@ -30,6 +30,7 @@ public class PlayerService implements IPlayerService {
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Player with id %s does not exist", id)));;
 		return this.toDto(playerEntity);	
 	}
+
 	
 	public PlayerDto toDto(PlayerEntity playerEntity) {
 		PlayerDto playerDto = new PlayerDto();
