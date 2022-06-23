@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "players")
 public class PlayerEntity implements Serializable {
-
+	//@TODO la sangria empieza donde esta este comentario
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		@Column(name = "id")

@@ -21,6 +21,7 @@ public class PlayerService implements IPlayerService {
 
 	@Override
 	public PlayerEntity create(PlayerEntity player) {
+		// @TODO: aca tenes que parsear el resultado del .save (entity) a DTO y retornar al controller un DTO
 		return playerRepository.save(player);
 	}
 	
@@ -31,10 +32,12 @@ public class PlayerService implements IPlayerService {
 		return this.toDto(playerEntity);	
 	}
 
-	
+	// @TODO: este metodo se usa unicamente en esta clase, entonces no deberia ser public deberia ser? ...
 	public PlayerDto toDto(PlayerEntity playerEntity) {
 		PlayerDto playerDto = new PlayerDto();
 		playerDto.setId(playerEntity.getId());
+		// @TODO: que pasa si la llamada a getCoordinatesByPlayerId falla o da error? ya sea porque el otro microservicio esta caido o algo, aca estas asumiendo que el valor viene siempre y lo estas seteando automaticamente
+		// @TODO: pero deberias tener un control de si la llamada por rest al otro microservicio fue bien o fallo
 		playerDto.setCoordinates(coordinateClientRest.getCoordinatesByPlayerId(playerEntity.getId()));
 		playerDto.setUsername(playerEntity.getUsername());
 		playerDto.setPassword(playerEntity.getPassword());

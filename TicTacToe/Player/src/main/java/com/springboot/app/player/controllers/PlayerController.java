@@ -22,6 +22,8 @@ public class PlayerController {
 	private IPlayerService playerService;
 	
 	@PostMapping
+	// @TODO: Nunca en la vida un controlador tiene que retornar un entity, eso esta prohibido, tu controlador unicamente escupe DTO: data transfer object
+	// @TODO: Nunca en la vida un controlador recibe un body que es un entity: el controlador tiene que recibir un dto: CreatePlayerRequest con los datos que necesitas para crear ese player y retornar un CreatePlayerResponse: con la info que vas a devolver
 	public ResponseEntity<PlayerEntity> create(@RequestBody PlayerEntity player) {
 		return new ResponseEntity<PlayerEntity>(playerService.create(player), HttpStatus.CREATED);
 	}
