@@ -1,0 +1,19 @@
+package com.springboot.app.board.utils;
+
+import com.springboot.app.board.dto.BoardDto;
+import com.springboot.app.board.entities.BoardEntity;
+
+public class MapperBoard {
+	
+	public BoardDto toDto(BoardEntity boardEntity) {
+		BoardDto boardDto = new BoardDto();
+		boardDto.setDimension(boardEntity.getDimension());
+		return boardDto;
+	}
+	
+//	public PlayerEntity toEntity(PlayerDto playerDto, PlayerEntity playerEntity) {
+//		playerEntity.setUsername(playerDto.getUsername());
+//		playerEntity.setPassword(playerDto.getPassword());
+//		return playerEntity;
+//	}
+}

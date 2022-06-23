@@ -1,0 +1,12 @@
+package com.springboot.app.game.dto;
+
+import java.util.Map;
+
+import com.springboot.app.game.utils.Console;
+
+public class GameDto {
+	
+	private  Map<String, Map<String, String>> player_1;
+		
+	
+}

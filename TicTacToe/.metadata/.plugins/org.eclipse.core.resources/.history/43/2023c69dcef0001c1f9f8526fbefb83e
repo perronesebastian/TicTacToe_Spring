@@ -1,0 +1,11 @@
+package com.springboot.app.services;
+
+import com.springboot.app.board.entities.BoardEntity;
+
+public interface IBoardService {
+
+	public BoardEntity create();
+
+	public Integer createBoardAndGetId();
+
+}

@@ -1,0 +1,19 @@
+package com.springboot.app.coordinate.services;
+
+import org.springframework.stereotype.Service;
+
+import com.springboot.app.coordinate.entities.CoordinateEntity;
+
+@Service
+public class CoordinateService implements ICoordinateService {
+
+	@Override
+	public void create(Integer boardId, Integer row, Integer column) {
+
+		CoordinateEntity coordinateEntity = new CoordinateEntity();
+		coordinateEntity.setBoard_id(boardId);
+		coordinateEntity.setRow(row);
+		coordinateEntity.setColumn(column);
+	}
+
+}

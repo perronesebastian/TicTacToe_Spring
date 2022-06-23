@@ -1,0 +1,23 @@
+package com.springboot.app.player.utils;
+
+import java.util.Optional;
+
+import com.springboot.app.player.dtos.PlayerDto;
+import com.springboot.app.player.entities.PlayerEntity;
+
+public class MapperPlayer {
+	
+	public PlayerDto toDto(PlayerEntity playerEntity) {
+		PlayerDto playerDto = new PlayerDto();
+		playerDto.setUsername(playerEntity.getUsername());
+		playerDto.setPassword(playerEntity.getPassword());
+		return playerDto;
+	}
+	
+	public PlayerEntity toEntity(PlayerDto playerDto, PlayerEntity playerEntity) {
+		playerEntity.setUsername(playerDto.getUsername());
+		playerEntity.setPassword(playerDto.getPassword());
+		return playerEntity;
+	}
+
+}

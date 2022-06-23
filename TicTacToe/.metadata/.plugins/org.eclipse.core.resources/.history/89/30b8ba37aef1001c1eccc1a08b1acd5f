@@ -1,0 +1,11 @@
+package com.springboot.app.board.clients;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@FeignClient(name = "tictactoe-coordinate", url = "localhost:8004")
+public interface CoordinateClientRest {
+	
+	@PostMapping("/coordinate/create")
+	public void create(Integer boardId, Integer row, Integer column);
+}

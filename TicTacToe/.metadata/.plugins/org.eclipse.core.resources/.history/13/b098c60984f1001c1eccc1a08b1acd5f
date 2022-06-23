@@ -1,0 +1,5 @@
+package com.springboot.app.board.utils;
+
+public class MapperBoard {
+
+}

@@ -1,0 +1,5 @@
+package com.springboot.app.game.clients;
+
+public interface BoardClientRest {
+
+}

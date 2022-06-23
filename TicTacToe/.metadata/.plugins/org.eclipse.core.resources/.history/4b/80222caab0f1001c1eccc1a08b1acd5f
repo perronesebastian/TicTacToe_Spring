@@ -1,0 +1,7 @@
+package com.springboot.app.coordinate.services;
+
+public interface ICoordinateService {
+
+	public void create(Integer boardId, Integer row, Integer column);
+
+}

@@ -1,0 +1,15 @@
+package com.springboot.app.player.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.springboot.app.player.entities.PlayerEntity;
+
+public interface PlayerRepository extends JpaRepository<PlayerEntity, Integer> {
+	
+	public Optional<PlayerEntity> findByUsername(String username);
+	
+	public Optional<PlayerEntity> findById(Integer id);
+
+}

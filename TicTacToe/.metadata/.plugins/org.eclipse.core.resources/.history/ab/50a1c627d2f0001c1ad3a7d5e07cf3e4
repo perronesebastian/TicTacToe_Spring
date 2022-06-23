@@ -1,0 +1,23 @@
+package com.springboot.app.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springboot.app.board.entities.BoardEntity;
+import com.springboot.app.board.repository.BoardRepository;
+
+@Service("boardService")
+public class BoardService {
+	
+	@Autowired
+	private BoardRepository repository;
+	
+	@Autowired
+	private BoardEntity board;
+
+	public Integer createBoardAndGetId() {
+		repository.save(board);
+		return board.getId();
+	}
+
+}
