@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.app.player.dtos.PlayerDto;
-import com.springboot.app.player.entities.PlayerEntity;
+import com.springboot.app.player.dtos.CreatePlayerResponse;
+import com.springboot.app.player.dtos.PlayerRequest;
+import com.springboot.app.player.dtos.GetPlayerResponse;
 import com.springboot.app.player.services.IPlayerService;
 
 @RestController
@@ -22,15 +23,12 @@ public class PlayerController {
 	private IPlayerService playerService;
 	
 	@PostMapping
-	// @TODO: Nunca en la vida un controlador tiene que retornar un entity, eso esta prohibido, tu controlador unicamente escupe DTO: data transfer object
-	// @TODO: Nunca en la vida un controlador recibe un body que es un entity: el controlador tiene que recibir un dto: CreatePlayerRequest con los datos que necesitas para crear ese player y retornar un CreatePlayerResponse: con la info que vas a devolver
-	public ResponseEntity<PlayerEntity> create(@RequestBody PlayerEntity player) {
-		return new ResponseEntity<PlayerEntity>(playerService.create(player), HttpStatus.CREATED);
+	public ResponseEntity<CreatePlayerResponse> create(@RequestBody PlayerRequest playerRequest) {
+		return new ResponseEntity<CreatePlayerResponse>(playerService.create(playerRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("id/{id}")
-	public ResponseEntity<PlayerDto> getPlayerById(@PathVariable("id") Integer id) {
-		return new ResponseEntity<PlayerDto>(playerService.getPlayerById(id), HttpStatus.OK);
+	public ResponseEntity<GetPlayerResponse> get(@PathVariable("id") Integer id) {
+		return new ResponseEntity<GetPlayerResponse>(playerService.get(id), HttpStatus.OK);
 	}
-
 }

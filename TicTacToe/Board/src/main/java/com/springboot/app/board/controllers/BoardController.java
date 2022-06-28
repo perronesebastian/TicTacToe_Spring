@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.app.board.dto.BoardDto;
-import com.springboot.app.board.entities.BoardEntity;
+import com.springboot.app.board.dto.BoardRequest;
+import com.springboot.app.board.dto.BoardResponse;
 import com.springboot.app.board.services.IBoardService;
 
 @RestController
@@ -22,13 +22,13 @@ public class BoardController {
 	private IBoardService boardService;
 	
 	@PostMapping
-	public ResponseEntity<BoardEntity> create(@RequestBody BoardEntity board) {
-		return new ResponseEntity<BoardEntity> (boardService.create(board), HttpStatus.CREATED);
+	public ResponseEntity<BoardResponse> create(@RequestBody BoardRequest boardRequest) {
+		return new ResponseEntity<BoardResponse> (boardService.create(boardRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/id/{id}")
-	public ResponseEntity<BoardDto> getBoardById(@PathVariable("id") Integer id) {
-		return new ResponseEntity<BoardDto>(boardService.getBoardById(id), HttpStatus.CREATED);
+	public ResponseEntity<BoardResponse> get(@PathVariable("id") Integer id) {
+		return new ResponseEntity<BoardResponse>(boardService.get(id), HttpStatus.CREATED);
 	}
 	
 	

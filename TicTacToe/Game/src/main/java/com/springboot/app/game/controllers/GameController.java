@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.app.game.dto.GameDto;
-import com.springboot.app.game.entities.GameEntity;
+import com.springboot.app.game.dto.GameRequest;
+import com.springboot.app.game.dto.GameResponse;
 import com.springboot.app.game.service.IGameService;
-
 
 @RestController
 @RequestMapping("/game")
@@ -24,13 +23,13 @@ public class GameController {
 	private IGameService gameService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<GameEntity> create(@RequestBody GameEntity game) {
-		return new ResponseEntity<GameEntity>(gameService.create(game), HttpStatus.OK);
+	public ResponseEntity<GameResponse> create(@RequestBody GameRequest gameRequest) {
+		return new ResponseEntity<GameResponse>(gameService.create(gameRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<GameDto> getGame(@PathVariable("id") Integer id) {
-		return new ResponseEntity<GameDto>(gameService.getGame(id), HttpStatus.OK);
+	public ResponseEntity<GameResponse> get(@PathVariable("id") Integer id) {
+		return new ResponseEntity<GameResponse>(gameService.get(id), HttpStatus.OK);
 	}
 
 }

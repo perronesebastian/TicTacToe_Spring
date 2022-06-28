@@ -15,12 +15,13 @@ public class CoordinateService implements ICoordinateService {
 	private CoordinateRepository coordinateRepository;
 
 	@Override
-	public CoordinateEntity create(CoordinateEntity target) {
-		return coordinateRepository.save(target);
+	public CoordinateDto create(CoordinateDto coordinateTarget) {
+		coordinateRepository.save(this.toEntity(coordinateTarget, new CoordinateEntity()));
+		return coordinateTarget;
 	}
 
 	@Override
-	public List<CoordinateDto> getCoordinatesByPlayerId(Integer playerId) {
+	public List<CoordinateDto> get(Integer playerId) {
 		List<CoordinateEntity> coordinatesEntities = coordinateRepository.findByPlayerId(playerId);
 		List<CoordinateDto> coordinatesDtos = new ArrayList<>();
 		for (CoordinateEntity coordinate : coordinatesEntities) {
@@ -36,5 +37,13 @@ public class CoordinateService implements ICoordinateService {
 		coordinateDto.setColumn(coordinateEntity.getColumn());
 		coordinateDto.setRow(coordinateEntity.getRow());
 		return coordinateDto;
+	}
+	
+	private CoordinateEntity toEntity(CoordinateDto coordinateDto, CoordinateEntity coordinateEntity) {
+		coordinateEntity.setBoard_id(coordinateDto.getBoard_id());
+		coordinateEntity.setPlayer_id(coordinateDto.getPlayer_id());
+		coordinateEntity.setColumn(coordinateDto.getColumn());
+		coordinateEntity.setRow(coordinateDto.getRow());
+		return coordinateEntity;
 	}
 }

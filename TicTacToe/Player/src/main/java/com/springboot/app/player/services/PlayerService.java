@@ -5,42 +5,54 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.springboot.app.player.clients.CoordinateClientRest;
-import com.springboot.app.player.dtos.PlayerDto;
+import com.springboot.app.player.dtos.CreatePlayerResponse;
+import com.springboot.app.player.dtos.PlayerRequest;
+import com.springboot.app.player.dtos.GetPlayerResponse;
 import com.springboot.app.player.entities.PlayerEntity;
 import com.springboot.app.player.repository.PlayerRepository;
+import com.springboot.app.player.restClient.CoordinateRestClient;
 
 @Service
 public class PlayerService implements IPlayerService {
 	
 	@Autowired
-	private PlayerRepository playerRepository;
+	private CoordinateRestClient coordinateClientRest;
 	
 	@Autowired
-	private CoordinateClientRest coordinateClientRest;
-
+	private PlayerRepository playerRepository;
+	
 	@Override
-	public PlayerEntity create(PlayerEntity player) {
-		// @TODO: aca tenes que parsear el resultado del .save (entity) a DTO y retornar al controller un DTO
-		return playerRepository.save(player);
+	public CreatePlayerResponse create(PlayerRequest playerRequest) {
+		PlayerEntity playerEntity = new PlayerEntity();
+		playerRepository.save(this.toEntity(playerRequest, playerEntity));
+		return this.mapperToCreate(playerEntity);
 	}
 	
 	@Override
-	public PlayerDto getPlayerById(Integer id) {
+	public GetPlayerResponse get(Integer id) {
 		PlayerEntity playerEntity = playerRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Player with id %s does not exist", id)));;
-		return this.toDto(playerEntity);	
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Player with id %s does not exist", id)));
+		return this.mapperToGet(playerEntity);
 	}
-
-	// @TODO: este metodo se usa unicamente en esta clase, entonces no deberia ser public deberia ser? ...
-	public PlayerDto toDto(PlayerEntity playerEntity) {
-		PlayerDto playerDto = new PlayerDto();
-		playerDto.setId(playerEntity.getId());
-		// @TODO: que pasa si la llamada a getCoordinatesByPlayerId falla o da error? ya sea porque el otro microservicio esta caido o algo, aca estas asumiendo que el valor viene siempre y lo estas seteando automaticamente
-		// @TODO: pero deberias tener un control de si la llamada por rest al otro microservicio fue bien o fallo
-		playerDto.setCoordinates(coordinateClientRest.getCoordinatesByPlayerId(playerEntity.getId()));
-		playerDto.setUsername(playerEntity.getUsername());
-		playerDto.setPassword(playerEntity.getPassword());
-		return playerDto;
+	
+	private GetPlayerResponse mapperToGet(PlayerEntity playerEntity) {
+		GetPlayerResponse playerResponse = new GetPlayerResponse();
+		playerResponse.setId(playerEntity.getId());
+		playerResponse.setUsername(playerEntity.getUsername());
+		playerResponse.setCoordinates(coordinateClientRest.getCoordinates(playerEntity.getId()));
+		return playerResponse;
+	}
+	
+	private CreatePlayerResponse mapperToCreate(PlayerEntity playerEntity) {
+		CreatePlayerResponse createPlayerResponse = new CreatePlayerResponse();
+		createPlayerResponse.setId(playerEntity.getId());
+		createPlayerResponse.setUsername(playerEntity.getUsername());
+		return createPlayerResponse;
+	}
+	
+	private PlayerEntity toEntity(PlayerRequest playerDto, PlayerEntity playerEntity) {
+		playerEntity.setUsername(playerDto.getUsername());
+		playerEntity.setPassword(playerDto.getPassword());
+		return playerEntity;
 	}
 }

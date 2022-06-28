@@ -4,42 +4,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import com.springboot.app.game.clients.BoardClientRest;
-import com.springboot.app.game.clients.PlayerClientRest;
-import com.springboot.app.game.dto.GameDto;
+import com.springboot.app.game.dto.GameRequest;
+import com.springboot.app.game.dto.GameResponse;
 import com.springboot.app.game.entities.GameEntity;
 import com.springboot.app.game.repository.GameRepository;
+import com.springboot.app.game.restClient.BoardRestClient;
+import com.springboot.app.game.restClient.PlayerRestClient;
 
 
 @Service
 public class GameService implements IGameService {
 		
-	@Autowired
-	public PlayerClientRest playerClientRest;
+//	@Autowired
+//	public PlayerClientRest playerClientRest;
+//	
+//	@Autowired
+//	public BoardClientRest boardClientRest;
 	
 	@Autowired
-	public BoardClientRest boardClientRest;
+	public PlayerRestClient playerRestClient;
+	
+	@Autowired
+	public BoardRestClient boardRestClient;
 	
 	@Autowired
 	private GameRepository gameRepository;
 	
 	@Override
-	public GameEntity create(GameEntity gameEntity) {
-		return gameRepository.save(gameEntity);
+	public GameResponse create(GameRequest gameRequest) {
+		GameEntity gameEntity = new GameEntity();
+		gameRepository.save(this.mapperToEntity(gameRequest, gameEntity));
+		return this.mapperToResponse(gameEntity);
 	}
 	
 	@Override
-	public GameDto getGame(Integer id) {
+	public GameResponse get(Integer id) {
 		GameEntity gameEntity = gameRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Game id %s does not exist", id)));
-		return this.toDto(gameEntity);
+		return this.mapperToResponse(gameEntity);
 	}
 	
-	private GameDto	toDto(GameEntity gameEntity) {
-		GameDto gameDto = new GameDto();
-		gameDto.setBoard(boardClientRest.getBoardById(gameEntity.getBoard_id()));
-		gameDto.setPlayer_1(playerClientRest.getPlayerById(gameEntity.getPlayer_id_1()));
-		gameDto.setPlayer_2(playerClientRest.getPlayerById(gameEntity.getPlayer_id_2()));
-		return gameDto;
+	private GameResponse mapperToResponse(GameEntity gameEntity) {
+		GameResponse gameResponse = new GameResponse();
+		gameResponse.setId(gameEntity.getId());
+		gameResponse.setBoard(boardRestClient.get(gameEntity.getBoard_id()));
+		gameResponse.setPlayer_1(playerRestClient.get(gameEntity.getPlayer_id_1()));
+		gameResponse.setPlayer_2(playerRestClient.get(gameEntity.getPlayer_id_2()));
+		return gameResponse;
+	}
+	
+	private GameEntity mapperToEntity(GameRequest gameRequest, GameEntity gameEntity) {
+		gameEntity.setBoard_id(gameRequest.getBoard_id());
+		gameEntity.setPlayer_id_1(gameRequest.getPlayer_id_1());
+		gameEntity.setPlayer_id_2(gameRequest.getPlayer_id_2());
+		return gameEntity;
 	}
 }

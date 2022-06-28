@@ -3,6 +3,7 @@ package com.springboot.app.player.dtos;
 public class CoordinateDto {
 	
 	private Integer row;
+	
 	private Integer column;
 	
 	public Integer getRow() {
@@ -20,5 +21,4 @@ public class CoordinateDto {
 	public void setColumn(Integer column) {
 		this.column = column;
 	}
-
 }

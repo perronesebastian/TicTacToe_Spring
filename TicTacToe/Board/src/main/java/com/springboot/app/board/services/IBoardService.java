@@ -1,12 +1,12 @@
 package com.springboot.app.board.services;
 
-import com.springboot.app.board.dto.BoardDto;
-import com.springboot.app.board.entities.BoardEntity;
+import com.springboot.app.board.dto.BoardRequest;
+import com.springboot.app.board.dto.BoardResponse;
 
 public interface IBoardService {
 	
-	public BoardEntity create(BoardEntity board);
+	BoardResponse create(BoardRequest boardRequest);
 
-	public BoardDto getBoardById(Integer id);
+	BoardResponse get(Integer id);
 
 }

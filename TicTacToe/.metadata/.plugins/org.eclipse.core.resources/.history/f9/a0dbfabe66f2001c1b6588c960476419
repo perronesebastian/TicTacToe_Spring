@@ -1,9 +1,0 @@
-package com.springboot.app.coordinate.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.springboot.app.coordinate.entities.CoordinateEntity;
-
-public interface CoordinateRepository extends JpaRepository<CoordinateEntity, Integer> {
-
-}

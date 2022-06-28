@@ -1,5 +1,0 @@
-package com.springboot.app.coordinate.services;
-
-public class CoordinateService {
-
-}

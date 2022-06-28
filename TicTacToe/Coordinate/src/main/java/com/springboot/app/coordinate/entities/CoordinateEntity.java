@@ -69,10 +69,6 @@ public class CoordinateEntity implements Serializable {
 	public void setColumn(Integer column) {
 		this.column = column;
 	}
-
-
-
-
-
+	
 	private static final long serialVersionUID = 4351613052898501813L;
 }

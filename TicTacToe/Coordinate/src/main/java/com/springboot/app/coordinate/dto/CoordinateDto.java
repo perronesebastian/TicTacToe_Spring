@@ -3,8 +3,11 @@ package com.springboot.app.coordinate.dto;
 public class CoordinateDto {
 	
 	private Integer board_id;
+	
 	private Integer player_id;
+	
 	private Integer row;
+	
 	private Integer column;
 	
 	public Integer getBoard_id() {
@@ -38,6 +41,4 @@ public class CoordinateDto {
 	public void setColumn(Integer column) {
 		this.column = column;
 	}
-
-	
 }
